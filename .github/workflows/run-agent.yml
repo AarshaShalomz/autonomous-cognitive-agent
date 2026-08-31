@@ -7,7 +7,7 @@ on:
 
 jobs:
   run-agent:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
 
     permissions:
       contents: write # Grants permission to commit changes back to your repo
@@ -29,6 +29,8 @@ jobs:
       - name: Install and Start Ollama Engine
         run: |
           curl -fsSL https://ollama.com/install.sh | sh
+          # The ollama server and model pull are heavy operations and should run only on self-hosted runners.
+          # The following lines are left for self-hosted environments where sufficient resources exist:
           ollama serve &
           sleep 5
           ollama pull llama3:8b
